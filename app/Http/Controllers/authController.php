@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class authController extends Controller
@@ -40,7 +39,7 @@ class authController extends Controller
     }
     public function login(LoginRequest $request)
     {
-        if (! auth()->attempt($request->only('email', 'password')))
+        if (! Auth::attempt($request->only('email', 'password')))
         {
             return Inertia::render('app', [], 401);
         }
@@ -54,5 +53,22 @@ class authController extends Controller
         ]);
 
         return Inertia::render('app');
+    }
+    public function logout(){
+       $user = [
+          'id' => auth()->id(),
+          'email' => auth()->id(),
+          'ip' => request()->ip()
+       ];
+        
+       Auth::logout();
+
+       Log::channel('logout')->info('یوزر خارج شد', [
+            'user_id' => $user["id"],
+            'email' => $user["email"],
+            'ip' => $user["ip"]
+       ]);
+
+       return Inertia::render('app');
     }
 }

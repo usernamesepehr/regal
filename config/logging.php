@@ -60,14 +60,20 @@ return [
 
         'register' => [
             'driver' => 'single',
-            'path' => storage_path('logs/register.log'),
+            'path' => storage_path('logs/auth/register.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
         ],
 
         'login' => [
             'driver' => 'single',
-            'path' => storage_path('logs/login.log'),
+            'path' => storage_path('logs/auth/login.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
+        'logout' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/auth/logout.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
         ],
