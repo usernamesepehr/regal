@@ -65,6 +65,13 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'login' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/login.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),

@@ -5,3 +5,4 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [authController::class, 'register'])->withoutMiddleware(VerifyCsrfToken::class);
+Route::post('/login', [authController::class, 'login'])->withoutMiddleware(VerifyCsrfToken::class);
