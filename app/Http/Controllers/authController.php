@@ -71,4 +71,12 @@ class authController extends Controller
 
        return Inertia::render('app');
     }
+    public function otp_generate()
+    {
+        $otp = random_int(10000, 99999);
+        session(['otp' => $otp]);
+        return Inertia::render('app', [
+            "password" => $otp
+        ]);
+    }
 }
