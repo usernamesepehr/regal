@@ -13,15 +13,47 @@ use Inertia\Inertia;
 
 class authController extends Controller
 {
+    
+    private static function uploadImage($request){
+       $path = $request->profile->store('profiles', 'public');
+       return asset($path);
+    }
+    public function login(LoginRequest $request)
+    {
+        $find = User::where('phone', $request->phone)->first();
+
+        if(! empty($find)){
+            if (! Auth::attempt($request->only('phone', 'password')))
+            {
+                return Inertia::render('app', [], 401);
+            }
+      
+
+        $request->session()->regenerate();
+
+        Log::channel('login')->info('یوزر لاگین کرد!', [
+            'user_id' => auth()->id(),
+            'email' => auth()->user()->phone,
+            'ip' => $request->ip(),
+        ]);
+
+        return Inertia::render('app');
+        }
+
+        session(['phone' => $request->phone]);
+        session(['password' => $request->password]);
+
+        return Inertia::render('app');
+    }
     public function register(RegisterRequest $request)
     {
         $profile_url = self::uploadImage($request);
 
-        $user = User::create_user($request, $profile_url);
+        $user = User::create_user($request, $profile_url, session('phone'), session('password'));
 
         Log::channel('register')->info('یوزر جدید ثبت نام کرد', [
             'user_id' => $user->id,
-            'email' => $user->email,
+            'phone' => $user->phone,
             'ip' => $request->ip(),
         ]);
 
@@ -29,35 +61,14 @@ class authController extends Controller
 
         $request->session()->regenerate();
 
-        welcomJob::dispatch($user)->onQueue('email');
-
-        return Inertia::render('app');
-    }
-    private static function uploadImage($request){
-       $path = $request->profile->store('profiles', 'public');
-       return asset($path);
-    }
-    public function login(LoginRequest $request)
-    {
-        if (! Auth::attempt($request->only('email', 'password')))
-        {
-            return Inertia::render('app', [], 401);
-        }
-
-        $request->session()->regenerate();
-
-        Log::channel('login')->info('یوزر لاگین کرد!', [
-            'user_id' => auth()->id(),
-            'email' => auth()->user()->email,
-            'ip' => $request->ip(),
-        ]);
+        // welcomJob::dispatch($user)->onQueue('email');
 
         return Inertia::render('app');
     }
     public function logout(){
        $user = [
           'id' => auth()->id(),
-          'email' => auth()->id(),
+          'phone' => auth()->user()->phone,
           'ip' => request()->ip()
        ];
         
@@ -65,7 +76,7 @@ class authController extends Controller
 
        Log::channel('logout')->info('یوزر خارج شد', [
             'user_id' => $user["id"],
-            'email' => $user["email"],
+            'phone' => $user["phone"],
             'ip' => $user["ip"]
        ]);
 

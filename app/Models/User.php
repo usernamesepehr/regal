@@ -46,13 +46,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public static function create_user($request, $profile_url)
+    public static function create_user($request, $profile_url, $phone, $password)
     {
-        //  return $request->phone;
         return self::create([
             'name' => $request->name,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
+            'phone' => $phone,
+            'password' => $password,
             'address' => $request->address,
             'city' => $request->city,
             'kodposti' => $request->kodposti,

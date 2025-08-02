@@ -23,8 +23,6 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|min:4',
-            'phone' => 'required|digits:11',
-            'password' => 'required|min:8|max:255|regex:/^[a-zA-Z0-9]+$/',
             'email' => 'required|email|unique:users,email',
             'kodposti' => 'required|digits:10',
             'city' => 'required|string|max:100',
@@ -39,14 +37,6 @@ class RegisterRequest extends FormRequest
             'name.string' => 'نام باید شامل حروف باشد.',
             'name.min' => 'نام باید حداقل ۴ حرف باشد.',
             'name.max' => 'نام نمی‌تواند بیشتر از ۲۵۵ حرف باشد.',
-    
-            'phone.required' => 'شماره تلفن الزامی است.',
-            'phone.digits' => 'شماره تلفن باید دقیقا ۱۱ رقم باشد.',
-    
-            'password.required' => 'رمز عبور الزامی است.',
-            'password.min' => 'رمز عبور باید حداقل ۸ کاراکتر باشد.',
-            'password.max' => 'رمز عبور نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد.',
-            'password.regex' => 'رمز عبور فقط می‌تواند شامل حروف و اعداد باشد.',
     
             'email.required' => 'وارد کردن ایمیل الزامی است.',
             'email.email' => 'ایمیل وارد شده معتبر نیست.',

@@ -22,20 +22,20 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            'phone' => 'required|digits:11',
             'password' => 'required|min:8|max:255|regex:/^[a-zA-Z0-9]+$/'
         ];
     }
     public function messages()
     {
         return [
-          'email.required' => 'وارد کردن ایمیل الزامی است.',
-          'email.email' => 'ایمیل وارد شده معتبر نیست.',
-
-          'password.required' => 'رمز عبور الزامی است.',
-          'password.min' => 'رمز عبور باید حداقل ۸ کاراکتر باشد.',
-          'password.max' => 'رمز عبور نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد.',
-          'password.regex' => 'رمز عبور فقط می‌تواند شامل حروف و اعداد باشد.'
+          'phone.required' => 'شماره تلفن الزامی است.',
+            'phone.digits' => 'شماره تلفن باید دقیقا ۱۱ رقم باشد.',
+    
+            'password.required' => 'رمز عبور الزامی است.',
+            'password.min' => 'رمز عبور باید حداقل ۸ کاراکتر باشد.',
+            'password.max' => 'رمز عبور نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد.',
+            'password.regex' => 'رمز عبور فقط می‌تواند شامل حروف و اعداد باشد.',
         ];
     }
 }
