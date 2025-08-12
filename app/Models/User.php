@@ -51,12 +51,16 @@ class User extends Authenticatable
         return self::create([
             'name' => $request->name,
             'phone' => $phone,
-            'password' => $password,
+            'password' => Hash::make($password),
             'address' => $request->address,
             'city' => $request->city,
             'kodposti' => $request->kodposti,
             'email' => $request->email,
             'profile' => $profile_url
         ]);
+    }
+    public static function findByPhone($phone)
+    {
+        return self::where('phone', $phone)->first();
     }
 }
