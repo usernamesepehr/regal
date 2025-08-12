@@ -45,8 +45,8 @@ class authController extends Controller
         $request->session()->regenerate();
 
         Log::channel('login')->info('یوزر لاگین کرد!', [
-            'user_id' => auth()->id(),
-            'email' => auth()->user()->phone,
+            'user_id' => auth::id(),
+            'email' => Auth::user()->phone,
             'ip' => $request->ip(),
         ]);
 
@@ -75,8 +75,8 @@ class authController extends Controller
     }
     public function logout(){
        $user = [
-          'id' => auth()->id(),
-          'phone' => auth()->user()->phone,
+          'id' => Auth::id(),
+          'phone' => Auth::user()->phone,
           'ip' => request()->ip()
        ];
         
