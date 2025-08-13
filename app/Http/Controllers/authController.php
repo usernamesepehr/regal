@@ -92,7 +92,7 @@ class authController extends Controller
     {
         $otp = random_int(10000, 99999);
         session(['otp' => $otp]);
-        session('phone', $request->phone);
+        session(['phone' => $request->phone]);
         return response()->json(['otp' => $otp]);
     }
     public function otp_check(OtpRequest $request)

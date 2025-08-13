@@ -27,7 +27,7 @@ class RoleMiddleware
         try {
         
 
-        $userRoleId = Auth::user()->role;
+        $userRoleId = session('role');
 
         $userRole = self::ROLE_MAP[$userRoleId] ?? null;
 
