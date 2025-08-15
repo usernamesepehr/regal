@@ -15,12 +15,12 @@ class RoleMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     private const ROLE_MAP = [
-          1 => 'user',
-          2 => 'seller',
-          3 => 'salesSpecialist',
-          4 => 'contentSpecialist',
-          5 => 'superAdmin',
-          6 => 'owner'
+          0 => 'user',
+          1 => 'seller',
+          2 => 'salesSpecialist',
+          3 => 'contentSpecialist',
+          4 => 'superAdmin',
+          5 => 'owner'
     ];
     public function handle(Request $request, Closure $next, $roles): Response
     {
