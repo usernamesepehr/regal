@@ -43,27 +43,5 @@ Route::get('/compare', function () {
     return Inertia::render('ComparePage');
 })->name('home');
 
-Route::get('/account', function () {
-    return Inertia::render('AccountPage');
-})->name('home');
-
-Route::get('/account/edit', function () {
-    return Inertia::render('AccountEditPage');
-})->name('home');
-
-Route::get('/account/orders', function () {
-    return Inertia::render('AccountOrdersPage');
-})->name('home');
-
-Route::get('/account/wishlist', function () {
-    return Inertia::render('AccountWishPage');
-})->name('home');
-
-Route::get('/account/address', function () {
-    return Inertia::render('AccountAddressPage');
-})->name('home');
-
-
-
 require __DIR__ . "/auth.php";
 require __DIR__ . "/userPanel.php";
