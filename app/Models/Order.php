@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -12,8 +13,8 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function product(): BelongsTo
+    public function order_product(): HasOne
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasOne(Order_product::class);
     }
 }

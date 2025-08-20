@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->integer('price');
-            $table->integer('final_price');
-            $table->integer('order_count');
+            $table->integer('discount')->nullable();
             $table->timestamps();
         });
     }
