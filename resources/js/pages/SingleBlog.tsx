@@ -10,7 +10,6 @@ import { usePage } from '@inertiajs/react'
 function SingleBlogPage() {
   const data=usePage() as {props:{blog:{data:BlogType}}}
       const {blog}=data.props
-      console.log(data.props);
   return (
     <>
     <Breadcrumb/>
