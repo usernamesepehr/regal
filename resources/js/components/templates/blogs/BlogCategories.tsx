@@ -1,9 +1,13 @@
 ""
 import BlogCard from '@/components/modules/blog/BlogCard'
+import { BlogCardCollectionType } from '@/types/blogs'
+import { usePage } from '@inertiajs/react'
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 function BlogCategories() {
+    const data=usePage() as {props:{blogs:{data:BlogCardCollectionType}}}
+    const {blogs}=data.props
     return (
         <>
             <div className='blog-category-wrapper' >
@@ -55,18 +59,9 @@ function BlogCategories() {
                 </Swiper>
             </div>
             <div className="blogs-wrapper">
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
-                <div className="w-4/12 p-2 max-tablet:w-full"><BlogCard /></div>
+                {blogs.data.map(blog=>(
+                    <div key={blog.id} className="w-4/12 p-2 max-tablet:w-full"><BlogCard blog={blog} /></div>
+                ))}
             </div>
         </>
     )
