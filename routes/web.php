@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\blogController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -11,13 +12,15 @@ Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
 
-Route::get('/blogs', function () {
-    return Inertia::render('Blogs');
-})->name('blogs');
 
-Route::get('/blogs/{id}', function () {
-    return Inertia::render('SingleBlog');
-})->name('home');
+
+
+Route::prefix('blogs')->group(function() {
+    Route::get('/', [blogController::class, 'all'])->name('blogs');
+    Route::get('/{slug}', [blogController::class, 'get'])->name('home');
+}); 
+
+
 
 Route::get('/categories', function () {
     return Inertia::render('Categoriespage');
