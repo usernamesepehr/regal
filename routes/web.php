@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\blogController;
+use App\Http\Controllers\mainpageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-})->name('home');
+Route::get('/', [mainpageController::class, 'index']);
 
 Route::get('/about', function () {
     return Inertia::render('About');
