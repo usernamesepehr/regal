@@ -5,7 +5,7 @@ use App\Http\Controllers\mainpageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [mainpageController::class, 'index']);
+Route::get('/', [mainpageController::class, 'index'])->name('home');
 
 Route::get('/about', function () {
     return Inertia::render('About');
