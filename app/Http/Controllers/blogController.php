@@ -14,11 +14,8 @@ class blogController extends Controller
     public function all(Request $request)
     {
         $perPage = $request->input('per_pages', 9);
-        $blogs = Blog::select('id', 'title', 'slug', 'created_at','description','thumbnail')->orderBy('id', 'desc')->paginate($perPage);
-        $blogs->getCollection()->transform(function($blog) {
-            $blog->created_at = Jalalian::fromCarbon($blog->created_at);
-            return $blog;
-        });
+        $blogs = $this->blogs($perPage);
+        $blogs = $this->transformBlogs($blogs);
       
         $latestBlogs = $blogs->take(4);
         return response()->json(['blogs' => $blogs, 'latestBlogs' => $latestBlogs]);
@@ -29,6 +26,18 @@ class blogController extends Controller
         $blog = Blog::where('slug', $slug)->firstOrFail();
         $blogComments = Blog_comment::where('blog_id', $blog->id)->get();
         return Inertia::render('SingleBlog', ['blog' => $blog, 'comments' => $blogComments]);
+    }
+    private function transformBlogs($blogs)
+    {
+        $blogs->transform(function($blog) {
+            $blog->created_at = Jalalian::fromCarbon($blog->created_at);
+            return $blog;
+        });
+        return $blogs;
+    }
+    private function blogs($perPage)
+    {
+        return Blog::select('id', 'title', 'slug', 'created_at','description','thumbnail')->orderBy('id', 'desc')->paginate($perPage);
     }
     
 }
