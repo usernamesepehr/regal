@@ -12,4 +12,8 @@ class Category extends Model
     {
         return $this->hasMany(Product_category::class);
     }
+    public function category_metas(): HasMany
+    {
+        return $this->hasMany(Category_meta::class);
+    }
 }

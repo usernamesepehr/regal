@@ -50,4 +50,8 @@ class Product extends Model
     {
         return $this->hasMany(Product_image::class);
     }
+    public function product_metas(): HasMany
+    {
+        return $this->hasMany(Product_meta::class);
+    }
 }
