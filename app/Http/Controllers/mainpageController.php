@@ -28,7 +28,7 @@ class mainpageController extends Controller
     }
     private function products()
     {
-        return Product::select('id', 'name', 'price', 'discount')->orderBy('id', 'desc')->take(8)->get();
+        return Product::select('id', 'name', 'price', 'discount', 'slug')->orderBy('id', 'desc')->take(8)->get();
     }
     private function mapProducts($products)
     {
