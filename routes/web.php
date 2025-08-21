@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\blogController;
 use App\Http\Controllers\mainpageController;
+use App\Http\Controllers\showProductController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -12,7 +13,10 @@ Route::get('/about', function () {
 })->name('about');
 
 
-
+Route::prefix('products')->group(function() {
+    Route::get('/', [showProductController::class, 'index']);
+    Route::get('/{slug}', [showProductController::class, 'get']);
+});
 
 Route::prefix('blogs')->group(function() {
     Route::get('/', [blogController::class, 'all'])->name('blogs');

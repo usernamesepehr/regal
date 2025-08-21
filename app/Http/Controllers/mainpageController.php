@@ -19,8 +19,7 @@ class mainpageController extends Controller
         $products = $this->mapProducts($products);
         $blogs = $this->blogs();
         $blogs = $this->transformBlogs($blogs);
-        return response()->json([['categories' => $categories, 'products' => $products, 'blogs' => $blogs]]);
-        // return Inertia::render('home', [['categories' => $categories, 'products' => $products, 'blogs' => $blogs]]);
+        return Inertia::render('home', ['categories' => $categories, 'products' => $products, 'blogs' => $blogs]);
     }
     private function categories()
     {
