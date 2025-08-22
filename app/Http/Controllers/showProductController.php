@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Option;
 use App\Models\Product;
 use App\Models\Product_category;
+use App\Models\Product_meta;
 use App\Models\Product_option;
 use App\Models\Rate;
 use Illuminate\Http\Request;
@@ -27,7 +28,8 @@ class showProductController extends Controller
         $rate = $this->rate($product->id);
         $categories = $this->categories($product->id);
         $options = $this->options($product->id);
-        return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'categories' => $categories, 'options' => $options]);
+        $metas = $this->metas($product->id);
+        return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'categories' => $categories, 'options' => $options, 'metas', $metas]);
     }
     private function products($per_page)
     {
@@ -67,5 +69,9 @@ class showProductController extends Controller
             return $product_option;
         });
         return $product_options;
+    }
+    private function metas($id)
+    {
+        return Product_meta::where('product_id', $id)->get();
     }
 }

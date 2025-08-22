@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Category_meta;
 use App\Models\Product;
 use App\Models\Product_category;
 use AWS\CRT\HTTP\Response;
@@ -22,7 +23,8 @@ class categoryController extends Controller
         $category = Category::where('slug', $slug)->firstOrFail( );
         $products = $this->products($category->id);
         $products = $this->mapProducts($products);
-        return Inertia::render('Categoriespage', ['products' => $products]);
+        $metas = $this->metas($category->id);
+        return Inertia::render('Categoriespage', ['products' => $products, 'metas' => $metas]);
     }
     private function products($id)
     {
@@ -40,5 +42,9 @@ class categoryController extends Controller
             $product->image = $product->images()->first();
             return $product;
         });
+    }
+    private function metas($id)
+    {
+        return Category_meta::where('category_id', $id)->get();
     }
 }
