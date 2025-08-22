@@ -32,4 +32,21 @@ class wishlistController extends Controller
             return $product;
         });
     }
+    public function add($id)
+    { 
+    // $user_id = Auth::id();
+    $user_id = 1;
+    $wishlistItem = Wishlist::where('product_id', $id)->where('user_id', $user_id)->first();
+    
+    if ($wishlistItem) {
+        $wishlistItem->delete();
+        return response()->json(['status' => false]);
+    } else {
+        Wishlist::create([
+            'product_id' => $id,
+            'user_id' => $user_id,
+        ]);
+        return response()->json(['status' => true]);
+    }
+    }
 }

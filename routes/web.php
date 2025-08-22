@@ -5,6 +5,7 @@ use App\Http\Controllers\categoryController;
 use App\Http\Controllers\mainpageController;
 use App\Http\Controllers\showProductController;
 use App\Http\Controllers\wishlistController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -49,7 +50,7 @@ Route::get('/compare', function () {
     return Inertia::render('ComparePage');
 })->name('home');
 
-
+Route::post('/wishlist/{id}', [wishlistController::class, 'add'])->withoutMiddleware(VerifyCsrfToken::class);
 
 require __DIR__ . "/auth.php";
 require __DIR__ . "/userPanel.php";
