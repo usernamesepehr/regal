@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\blogController;
+use App\Http\Controllers\categoryController;
 use App\Http\Controllers\mainpageController;
 use App\Http\Controllers\showProductController;
 use Illuminate\Support\Facades\Route;
@@ -23,15 +24,13 @@ Route::prefix('blogs')->group(function() {
     Route::get('/{slug}', [blogController::class, 'get'])->name('home');
 }); 
 
+Route::prefix('categories')->group(function() {
+    Route::get('/', [categoryController::class, 'index']);
+    Route::get('/{slug}', [categoryController::class, 'get']);
+});
 
 
-Route::get('/categories', function () {
-    return Inertia::render('Categoriespage');
-})->name('home');
 
-Route::get('/product/{slug}', function () {
-    return Inertia::render('ProductsPage');
-})->name('home');
 
 Route::get('/cart', function () {
     return Inertia::render('CartPage');

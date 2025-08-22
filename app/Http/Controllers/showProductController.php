@@ -27,7 +27,7 @@ class showProductController extends Controller
         $rate = $this->rate($product->id);
         $categories = $this->categories($product->id);
         $options = $this->options($product->id);
-        return Inertia::render('product', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'categories' => $categories, 'options' => $options]);
+        return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'categories' => $categories, 'options' => $options]);
     }
     private function products($per_page)
     {
