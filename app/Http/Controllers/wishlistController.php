@@ -11,8 +11,7 @@ class wishlistController extends Controller
 {
     public function index()
     {
-        // $user_id = Auth::id();
-        $user_id = 1;
+        $user_id = Auth::id();
         $wishlists = Wishlist::where('user_id', $user_id)->get();
         $products = collect();
         foreach($wishlists as $wishlist){
@@ -34,8 +33,7 @@ class wishlistController extends Controller
     }
     public function add($id)
     { 
-    // $user_id = Auth::id();
-    $user_id = 1;
+    $user_id = Auth::id();
     $wishlistItem = Wishlist::where('product_id', $id)->where('user_id', $user_id)->first();
     
     if ($wishlistItem) {
