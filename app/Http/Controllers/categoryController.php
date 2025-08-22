@@ -22,7 +22,7 @@ class categoryController extends Controller
         $category = Category::where('slug', $slug)->firstOrFail( );
         $products = $this->products($category->id);
         $products = $this->mapProducts($products);
-        return response()->json(['products' => $products]);
+        return Inertia::render('Categoriespage', ['products' => $products]);
     }
     private function products($id)
     {
