@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class Product extends Model
 {
     protected $guarded = [];
+    protected $appends = ['image'];
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
@@ -53,5 +54,9 @@ class Product extends Model
     public function product_metas(): HasMany
     {
         return $this->hasMany(Product_meta::class);
+    }
+    public function getImageAttribute()
+    {
+        return $this->images()->first();
     }
 }

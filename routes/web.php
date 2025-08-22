@@ -4,6 +4,7 @@ use App\Http\Controllers\blogController;
 use App\Http\Controllers\categoryController;
 use App\Http\Controllers\mainpageController;
 use App\Http\Controllers\showProductController;
+use App\Http\Controllers\wishlistController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -47,6 +48,8 @@ Route::get('/privacy', function () {
 Route::get('/compare', function () {
     return Inertia::render('ComparePage');
 })->name('home');
+
+
 
 require __DIR__ . "/auth.php";
 require __DIR__ . "/userPanel.php";

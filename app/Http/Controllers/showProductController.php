@@ -9,7 +9,9 @@ use App\Models\Product_category;
 use App\Models\Product_meta;
 use App\Models\Product_option;
 use App\Models\Rate;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class showProductController extends Controller
@@ -29,6 +31,7 @@ class showProductController extends Controller
         $categories = $this->categories($product->id);
         $options = $this->options($product->id);
         $metas = $this->metas($product->id);
+        $liked = $this->is_liked($product->id);
         return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'categories' => $categories, 'options' => $options, 'metas', $metas]);
     }
     private function products($per_page)
@@ -73,5 +76,14 @@ class showProductController extends Controller
     private function metas($id)
     {
         return Product_meta::where('product_id', $id)->get();
+    }
+    private function is_liked($product_id)
+    {
+        $user_id = Auth::id();
+        if(Wishlist::where('product_id', $product_id)->where('user_id', $user_id)->first()){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
