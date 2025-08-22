@@ -18,10 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->integer('quantity');
-            $table->integer('price');
-            $table->string('color');
-            $table->string('size');
-            $table->timestamps();
+            $table->string('options_id');
         });
     }
 

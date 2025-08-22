@@ -21,6 +21,9 @@ Route::prefix('products')->group(function() {
     Route::get('/{slug}', [showProductController::class, 'get']);
 });
 
+Route::get('/detail', [showProductController::class, 'detail']);
+
+
 Route::prefix('blogs')->group(function() {
     Route::get('/', [blogController::class, 'all'])->name('blogs');
     Route::get('/{slug}', [blogController::class, 'get'])->name('home');

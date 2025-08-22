@@ -32,7 +32,13 @@ class showProductController extends Controller
         $options = $this->options($product->id);
         $metas = $this->metas($product->id);
         $liked = $this->is_liked($product->id);
-        return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'categories' => $categories, 'options' => $options, 'metas', $metas]);
+        return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'liked' => $liked, 'categories' => $categories, 'options' => $options, 'metas', $metas]);
+    }
+    public function detail(Request $request)
+    {
+        $options_id = implode(', ', $request->option_id);
+        $product_detail = Product_option::select('id', 'quantity', 'price')->where('product_id', $request->product_id)->where('options_id', $options_id)->firstOrFail();
+        return response()->json(['detail' => $product_detail]);
     }
     private function products($per_page)
     {
@@ -64,7 +70,7 @@ class showProductController extends Controller
     }
     private function options($product_id)
     {
-        $product_options = Product_option::where('product_id', $product_id)->get();
+        $product_options = Product_option::select('id', 'options_id')->where('product_id', $product_id)->get();
         $product_options->transform(function ($product_option) {
             $options_id = array_map('intval', array_map('trim', explode(',', $product_option->options_id)));
             $product_option->option1 = Option::where('id', $options_id[0])->first();
