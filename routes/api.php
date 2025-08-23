@@ -5,4 +5,7 @@ use App\Http\Controllers\wishlistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/cart', [cartController::class, 'add']);
+Route::prefix('cart')->group(function() {
+    Route::post('/', [cartController::class, 'add']);
+    Route::get('/', [cartController::class, 'index']);
+});
