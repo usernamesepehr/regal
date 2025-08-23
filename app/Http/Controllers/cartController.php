@@ -41,6 +41,11 @@ class cartController extends Controller
         }
         
     }
+    public function destroy($id)
+    {
+        $user_id = Auth::id();
+        Cart::where('user_id', $user_id)->where('id', $id)->delete();
+    }
     private function get_available_quantity($product_id, $options_id)
     {
         return Product_option::select('quantity')
