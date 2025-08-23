@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\blogController;
 use App\Http\Controllers\categoryController;
+use App\Http\Controllers\commentController;
 use App\Http\Controllers\mainpageController;
 use App\Http\Controllers\showProductController;
 use App\Http\Controllers\wishlistController;
@@ -23,6 +24,10 @@ Route::prefix('products')->group(function() {
 
 Route::get('/detail', [showProductController::class, 'detail']);
 
+Route::prefix('comment')->group(function() {
+    Route::post('/', [commentController::class, 'add'])->withoutMiddleware(VerifyCsrfToken::class);
+    Route::delete('/{id}', [commentController::class, 'destroy'])->withoutMiddleware(VerifyCsrfToken::class);
+});
 
 Route::prefix('blogs')->group(function() {
     Route::get('/', [blogController::class, 'all'])->name('blogs');
