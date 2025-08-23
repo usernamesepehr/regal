@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\blogcommentController;
 use App\Http\Controllers\blogController;
 use App\Http\Controllers\categoryController;
 use App\Http\Controllers\commentController;
 use App\Http\Controllers\mainpageController;
 use App\Http\Controllers\showProductController;
 use App\Http\Controllers\wishlistController;
+use App\Models\Rate;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,7 +34,13 @@ Route::prefix('comment')->group(function() {
 Route::prefix('blogs')->group(function() {
     Route::get('/', [blogController::class, 'all'])->name('blogs');
     Route::get('/{slug}', [blogController::class, 'get'])->name('home');
+
 }); 
+
+Route::prefix('blog/comment')->group(function () {
+    Route::post('/', [blogcommentController::class, 'add'])->withoutMiddleware(VerifyCsrfToken::class);
+    Route::delete('/{id}', [blogcommentController::class, 'destroy'])->withoutMiddleware(VerifyCsrfToken::class);
+});
 
 Route::prefix('categories')->group(function() {
     Route::get('/', [categoryController::class, 'index']);
