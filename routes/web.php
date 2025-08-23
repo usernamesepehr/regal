@@ -5,6 +5,7 @@ use App\Http\Controllers\blogController;
 use App\Http\Controllers\categoryController;
 use App\Http\Controllers\commentController;
 use App\Http\Controllers\mainpageController;
+use App\Http\Controllers\searchController;
 use App\Http\Controllers\showProductController;
 use App\Http\Controllers\wishlistController;
 use App\Models\Rate;
@@ -20,6 +21,7 @@ Route::get('/about', function () {
 
 
 Route::prefix('products')->group(function() {
+    Route::get('/search', [searchController::class, 'product']);
     Route::get('/', [showProductController::class, 'index']);
     Route::get('/{slug}', [showProductController::class, 'get']);
 });
@@ -32,9 +34,9 @@ Route::prefix('comment')->group(function() {
 });
 
 Route::prefix('blogs')->group(function() {
+    Route::get('/search', [searchController::class, 'blog']);
     Route::get('/', [blogController::class, 'all'])->name('blogs');
     Route::get('/{slug}', [blogController::class, 'get'])->name('home');
-
 }); 
 
 Route::prefix('blog/comment')->group(function () {
