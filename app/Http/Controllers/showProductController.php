@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
+include "jdf.php";
+
 class showProductController extends Controller
 {
     public function index(Request $request)
@@ -34,7 +36,7 @@ class showProductController extends Controller
         $liked = $this->is_liked($product->id);
         $userComments = $this->user_comments($product->id);
         return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'liked' => $liked, 'categories' => $categories, 'options' => $options, 'metas' => $metas, 'userComments' => $userComments]);
-    }
+    }  
     public function detail(Request $request)
     {
         $options_id = implode(', ', $request->option_id);
@@ -50,12 +52,15 @@ class showProductController extends Controller
     {
         return $products->map(function($product) {
             $product->image = $product->images()->first();
+            $product->timestamp = jdate('F j', (int) $product->timestamp);
             return $product;
         });
     }
     private function product($slug)
     {
-        return Product::where('slug', $slug)->with('images')->firstOrFail();
+        $product = Product::where('slug', $slug)->with('images')->firstOrFail();
+        $product->timestamp = jdate('F j', (int) $product->timestamp);
+        return $product;
     }
     private function categories($product_id)
     {

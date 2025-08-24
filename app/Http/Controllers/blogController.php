@@ -7,7 +7,8 @@ use App\Models\Blog_comment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Morilog\Jalali\Jalalian;
+
+include "jdf.php";
 
 class blogController extends Controller
 {
@@ -24,20 +25,21 @@ class blogController extends Controller
     public function get($slug)
     {
         $blog = Blog::where('slug', $slug)->firstOrFail();
+        $blog->timestamp = jdate('F j', (int) $blog->timestamp);
         $blogComments = Blog_comment::where('blog_id', $blog->id)->get();
         return Inertia::render('SingleBlog', ['blog' => $blog, 'comments' => $blogComments]);
     }
     private function transformBlogs($blogs)
     {
         $blogs->transform(function($blog) {
-            $blog->created_at = Jalalian::fromCarbon($blog->created_at);
+            $blog->timestamp = jdate('F j', (int) $blog->timestamp);
             return $blog;
         });
         return $blogs;
     }
     private function blogs($perPage)
     {
-        return Blog::select('id', 'title', 'slug', 'created_at','description','thumbnail')->orderBy('id', 'desc')->paginate($perPage);
+        return Blog::select('id', 'title', 'slug', 'timestamp','description','thumbnail')->orderBy('id', 'desc')->paginate($perPage);
     }
     
 }
