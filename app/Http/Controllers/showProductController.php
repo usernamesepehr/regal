@@ -32,7 +32,8 @@ class showProductController extends Controller
         $options = $this->options($product->id);
         $metas = $this->metas($product->id);
         $liked = $this->is_liked($product->id);
-        return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'liked' => $liked, 'categories' => $categories, 'options' => $options, 'metas', $metas]);
+        $userComments = $this->user_comments($product->id);
+        return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'liked' => $liked, 'categories' => $categories, 'options' => $options, 'metas' => $metas, 'userComments' => $userComments]);
     }
     public function detail(Request $request)
     {
@@ -91,5 +92,10 @@ class showProductController extends Controller
         }else {
             return false;
         }
+    }
+    private function user_comments($product_id)
+    {
+        $user_id = Auth::id();
+        return Comment::select('id')->where('user_id', $user_id)->where('product_id', $product_id)->get();
     }
 }
