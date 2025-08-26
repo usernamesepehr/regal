@@ -2,11 +2,15 @@
 import BlogCard from '@/components/modules/blog/BlogCard'
 import Container from '@/components/modules/container/Container'
 import { ArrowLeft } from 'iconsax-react'
-import { Link } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { BlogCardCollectionType } from '@/types/blogs'
 
 function HomeBlogSection() {
+    const data=usePage() as {props:{blogs:BlogCardCollectionType}}
+    const {blogs}=data.props
+    console.log(blogs);
   return (
     <section className='home-blog-section' >
         <Container>
@@ -30,18 +34,11 @@ function HomeBlogSection() {
                 }
             }}
             >
-                <SwiperSlide>
-                    <BlogCard/>
+                {blogs.map(blog=>(
+                <SwiperSlide key={blog.id}>
+                    <BlogCard blog={blog} />
                 </SwiperSlide>
-                <SwiperSlide>
-                    <BlogCard/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <BlogCard/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <BlogCard/>
-                </SwiperSlide>
+                ))}
             </Swiper>
             </div>
         </Container>

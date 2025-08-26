@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\Blog_comment;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-include "jdf.php";
 
 class blogController extends Controller
 {
@@ -19,8 +17,8 @@ class blogController extends Controller
         $blogs = $this->transformBlogs($blogs);
       
         $latestBlogs = $blogs->take(4);
-        return response()->json(['blogs' => $blogs, 'latestBlogs' => $latestBlogs]);
-        // return Inertia::render('Blogs', ['blogs' => $blogs, 'latestBlogs' => $latestBlogs]);
+        // return response()->json(['blogs' => $blogs, 'latestBlogs' => $latestBlogs]);
+        return Inertia::render('Blogs', ['blogs' => $blogs, 'latestBlogs' => $latestBlogs]);
     }
     public function get($slug)
     {
