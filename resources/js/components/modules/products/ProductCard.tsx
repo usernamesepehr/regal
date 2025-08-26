@@ -1,13 +1,13 @@
-import { ProductCardType } from '@/types'
+import { ProductsCardType } from '@/types/products'
 import { Link } from '@inertiajs/react'
 import React, { useState } from 'react'
 
-function ProductCard({product}:{product?:ProductCardType}) {
+function ProductCard({product}:{product?:ProductsCardType}) {
   const [load,setLoad]=useState(false)
   if(product){
     return (
-      <Link className='product-card' href={`/products/${product.url}`} prefetch>
-          <img className={`product-card_image ${!load&&'hidden'}`} src={product.image} alt={product.name} onLoad={e=>{setLoad(true)}} />
+      <Link className='product-card' href={`/products/${product.slug}`} prefetch>
+          <img className={`product-card_image ${!load&&'hidden'}`} src={product.image.path} alt={product.name} onLoad={()=>{setLoad(true)}} />
         {!load&&
           <div className="product-card_image_skeleton"></div>
         }

@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-include "jdf.php";
 
 class showProductController extends Controller
 {

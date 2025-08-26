@@ -1,22 +1,24 @@
-'use client'
 import { Drop, Heart, Share } from 'iconsax-react'
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import ProductStarWrapper from './ProductStarWrapper'
 import { WashingMachine } from 'lucide-react'
 import ProductColorWrapper from './ProductColorWrapper'
 import ProductSizeWrapper from './ProductSizeWrapper'
 import ProductsButtonWrapper from './ProductsButtonWrapper'
+import { useProductContext } from '@/contexts/product/ProductContext'
+import { ProductType } from '@/types/products'
 function ProductInfoWrapper() {
+    const product=useProductContext() as ProductType
     const [color,setColor]=useState('')
     const [size,setSize]=useState('')
   return (
     <>
     <div className="col-span-5 max-tablet:col-span-12">
-        <img src="/assets/images/product.png" className='w-full'/>
+        <img src={product.image.path} className='w-full'/>
     </div>
     <div className="col-span-7 max-tablet:col-span-12">
         <div className="flex items-center justify-between max-tablet:mt-6">
-        <h3 className='product-info-title'>لباس میدی دکلته الی</h3>
+        <h3 className='product-info-title'>{product?.name}</h3>
         <div className="product-info-action-wrapper">
             <button className='product-info-action-btn btn out-line' >
                 <Share className='product-info-action-btn-icon'/>
@@ -28,8 +30,14 @@ function ProductInfoWrapper() {
         </div>
         <ProductStarWrapper/>
         <div className="product-info-price-wrapper">
-            <p className="product-info-price-old"> 300,000 تومان</p>
-            <h6 className="product-info-price"> 300,000 تومان</h6>
+            {product.discount>0?
+            <>
+            <p className="product-info-price-old"> {product.price.toLocaleString()} تومان</p>
+            <h6 className="product-info-price"> {product.discount.toLocaleString()} تومان</h6>
+            </>
+            :
+            <h6 className="product-info-price"> {product.price.toLocaleString()} تومان</h6>
+            }
         </div>
         <p className="body-4 product-into-short-description">لباس میدی دکلته الی یکی از آیتم‌های شیک و جذاب در دنیای مد زنانه است که به‌طور خاص برای مهمانی‌ها و مناسبت‌های خاص طراحی شده است. این لباس با ظاهری زیبا و جزئیات دقیق، انتخابی ایده‌آل است.</p>
         <div className="product-info-shAttr-wrapper">

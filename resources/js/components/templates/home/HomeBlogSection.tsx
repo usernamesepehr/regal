@@ -8,42 +8,41 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { BlogCardCollectionType } from '@/types/blogs'
 
 function HomeBlogSection() {
-    const data=usePage() as {props:{blogs:BlogCardCollectionType}}
-    const {blogs}=data.props
-    console.log(blogs);
-  return (
-    <section className='home-blog-section' >
-        <Container>
-            <div className="col-span-12 flex items-center justify-between mb-6">
-            <h2 className='max-mobile:!text-base' >مقالات مد و استایل زنانه</h2>
-            <Link href={'/'} className='button-3 flex items-center gap-2' >
-            مشاهده همه
-            <ArrowLeft className='stroke-neutral-11 w-4 h-4' />
-            </Link>
-            </div>
-            <div className="col-span-12">
-            <Swiper
-            slidesPerView={1.3}
-            spaceBetween={24}
-            breakpoints={{
-                576:{
-                    slidesPerView:2
-                },
-                992:{
-                    slidesPerView:3
-                }
-            }}
-            >
-                {blogs.map(blog=>(
-                <SwiperSlide key={blog.id}>
-                    <BlogCard blog={blog} />
-                </SwiperSlide>
-                ))}
-            </Swiper>
-            </div>
-        </Container>
-    </section>
-  )
+    const data = usePage() as { props: { blogs: BlogCardCollectionType } }
+    const { blogs } = data.props
+    return (
+        <section className='home-blog-section' >
+            <Container>
+                <div className="col-span-12 flex items-center justify-between mb-6">
+                    <h2 className='max-mobile:!text-base' >مقالات مد و استایل زنانه</h2>
+                    <Link href={'/'} className='button-3 flex items-center gap-2' >
+                        مشاهده همه
+                        <ArrowLeft className='stroke-neutral-11 w-4 h-4' />
+                    </Link>
+                </div>
+                <div className="col-span-12">
+                    <Swiper
+                        slidesPerView={1.3}
+                        spaceBetween={24}
+                        breakpoints={{
+                            576: {
+                                slidesPerView: 2
+                            },
+                            992: {
+                                slidesPerView: 3
+                            }
+                        }}
+                    >
+                        {blogs.map(blog => (
+                            <SwiperSlide key={blog.id}>
+                                <BlogCard blog={blog} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+            </Container>
+        </section>
+    )
 }
 
 export default HomeBlogSection

@@ -1,9 +1,9 @@
-import { ProductInterFace } from '@/types';
+import { ProductType } from '@/types/products';
 import { createContext, ReactNode, useContext } from 'react';
-export const ProductContext = createContext<ProductInterFace | null>(null);
+export const ProductContext = createContext<ProductType | null>(null);
 interface ProductProviderProps {
   children: ReactNode;
-  data: ProductInterFace;
+  data: ProductType;
 }
 
 export default function ProductProvider({ children, data }: ProductProviderProps) {

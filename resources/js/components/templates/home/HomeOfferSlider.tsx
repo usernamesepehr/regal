@@ -1,9 +1,11 @@
-"use client"
 import ProductCard from '@/components/modules/products/ProductCard'
-import React from 'react'
+import { ProductsCardCollectionType } from '@/types/products'
+import { usePage } from '@inertiajs/react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 function HomeOfferSlider() {
+    const data=usePage() as {props:{products:ProductsCardCollectionType}}
+    const {products}=data.props
   return (
     <Swiper
     slidesPerView={2}
@@ -20,24 +22,11 @@ function HomeOfferSlider() {
         }
     }}
     >
-        <SwiperSlide>
-            <ProductCard/>
+        {products.map((product)=>(
+        <SwiperSlide key={product.id}>
+            <ProductCard product={product}/>
         </SwiperSlide>
-        <SwiperSlide>
-            <ProductCard/>
-        </SwiperSlide>
-        <SwiperSlide>
-            <ProductCard/>
-        </SwiperSlide>
-        <SwiperSlide>
-            <ProductCard/>
-        </SwiperSlide>
-        <SwiperSlide>
-            <ProductCard/>
-        </SwiperSlide>
-        <SwiperSlide>
-            <ProductCard/>
-        </SwiperSlide>
+        ))}
     </Swiper>
   )
 }
