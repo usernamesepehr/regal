@@ -7,6 +7,8 @@ use App\Models\Blog_comment;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+include_once __DIR__ . "../../../../libs/jdf.php";
+
 
 class blogController extends Controller
 {

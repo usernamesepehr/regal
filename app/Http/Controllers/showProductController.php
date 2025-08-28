@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
+include_once __DIR__ . "../../../../libs/jdf.php";
 
 class showProductController extends Controller
 {
