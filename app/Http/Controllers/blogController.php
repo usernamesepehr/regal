@@ -15,21 +15,22 @@ class blogController extends Controller
 {
     public function all(Request $request)
     {
-        $perPage = $request->input('per_pages', 9);
-        $blogs = $this->blogs($perPage);
-        $blogs = $this->transformBlogs($blogs);
-        $latestBlogs = $blogs->take(4);
-        // return response()->json(['blogs' => $blogs, 'latestBlogs' => $latestBlogs]);
-        return Inertia::render('Blogs', ['blogs' => $blogs, 'latestBlogs' => $latestBlogs]);
+       $perPage = $request->input('per_pages', 9);
+
+      return Inertia::render('Blogs', [
+        'blogs'       => Inertia::defer(fn () => $this->transformBlogs($this->blogs($perPage))),
+        'latestBlogs' => Inertia::defer(fn () => $this->transformBlogs($this->blogs($perPage))->take(4)),
+      ]);
     }
     public function get($slug)
     {
-        $blog = Blog::where('slug', $slug)->firstOrFail();
-        $blog->timestamp = jdate('F j', (int) $blog->timestamp);
-        $blogComments = Blog_comment::where('blog_id', $blog->id)->get();
-        $userComments = $this->user_comments($blog->id);
-        return Inertia::render('SingleBlog', ['blog' => $blog, 'comments' => $blogComments, 'userComments' => $userComments]);
-        // return response()->json(['blog' => $blog, 'comments' => $blogComments, 'userComments' => $userComments]);
+     return Inertia::render('SingleBlog', [
+        'blog' => Inertia::defer(fn () => tap(Blog::where('slug', $slug)->firstOrFail(), function($blog) {
+            $blog->timestamp = jdate('F j', (int) $blog->timestamp);
+        })),
+        'comments' => Inertia::defer(fn () => $this->blogComments($slug)),
+        'userComments' => Inertia::defer(fn () => $this->user_comments(Blog::where('slug', $slug)->firstOrFail()->id)),
+    ]);
     }
     private function transformBlogs($blogs)
     {
@@ -49,5 +50,10 @@ class blogController extends Controller
         return Blog_comment::where('user_id', $user_id)
         ->where('blog_id', $blog_id)
         ->pluck('id'); 
+    }
+    private function blogComments(string $slug)
+    {
+       $blog = Blog::where('slug', $slug)->firstOrFail();
+       return Blog_comment::where('blog_id', $blog->id)->get();
     }
 }
