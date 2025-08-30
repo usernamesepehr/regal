@@ -21,22 +21,20 @@ class showProductController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->input('per_page', 9);
-        $products = $this->products($per_page);
-        $products = $this->mapProducts($products);
-        return Inertia::render('products', ['products' => $products]);
+        return Inertia::render('products', ['products' => Inertia::defer(fn () => $this->mapProducts($this->products($per_page)))]);
     }
     public function get($slug)
     {
-        $product = $this->product($slug);
-        $comments = $this->comments($product->id);
-        $rate = $this->rate($product->id);
-        $categories = $this->categories($product->id);
-        $options = $this->options($product->id);
-        $metas = $this->metas($product->id);
-        $liked = $this->is_liked($product->id);
-        $userComments = $this->user_comments($product->id);
-        return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'liked' => $liked, 'categories' => $categories, 'options' => $options, 'metas' => $metas, 'userComments' => $userComments]);
-        // return response()->json(['product' => $product, 'comments' => $comments, 'rate' => $rate, 'liked' => $liked, 'categories' => $categories, 'options' => $options, 'metas' => $metas, 'userComments' => $userComments]);
+     return Inertia::render('ProductsPage', [
+        'product'      => Inertia::defer(fn () => $this->product($slug)),
+        'comments'     => Inertia::defer(fn () => $this->comments($this->product($slug)->id)),
+        'rate'         => Inertia::defer(fn () => $this->rate($this->product($slug)->id)),
+        'liked'        => Inertia::defer(fn () => $this->is_liked($this->product($slug)->id)),
+        'categories'   => Inertia::defer(fn () => $this->categories($this->product($slug)->id)),
+        'options'      => Inertia::defer(fn () => $this->options($this->product($slug)->id)),
+        'metas'        => Inertia::defer(fn () => $this->metas($this->product($slug)->id)),
+        'userComments' => Inertia::defer(fn () => $this->user_comments($this->product($slug)->id)),
+    ]);
     }  
     public function detail(Request $request)
     {
