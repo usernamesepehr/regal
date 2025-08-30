@@ -92,15 +92,15 @@ class showProductController extends Controller
     private function is_liked($product_id)
     {
         $user_id = Auth::id();
-        if(Wishlist::where('product_id', $product_id)->where('user_id', $user_id)->first()){
-            return true;
-        }else {
-            return false;
-        }
+        return Wishlist::where('product_id', $product_id)
+        ->where('user_id', $user_id)
+        ->exists();
     }
     private function user_comments($product_id)
     {
         $user_id = Auth::id();
-        return Comment::select('id')->where('user_id', $user_id)->where('product_id', $product_id)->get();
+        return Comment::where('user_id', $user_id)
+        ->where('product_id', $product_id)
+        ->pluck('id'); 
     }
 }

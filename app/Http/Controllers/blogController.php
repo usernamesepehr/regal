@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Blog_comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 include_once __DIR__ . "../../../../libs/jdf.php";
@@ -17,7 +18,6 @@ class blogController extends Controller
         $perPage = $request->input('per_pages', 9);
         $blogs = $this->blogs($perPage);
         $blogs = $this->transformBlogs($blogs);
-      
         $latestBlogs = $blogs->take(4);
         // return response()->json(['blogs' => $blogs, 'latestBlogs' => $latestBlogs]);
         return Inertia::render('Blogs', ['blogs' => $blogs, 'latestBlogs' => $latestBlogs]);
@@ -27,6 +27,7 @@ class blogController extends Controller
         $blog = Blog::where('slug', $slug)->firstOrFail();
         $blog->timestamp = jdate('F j', (int) $blog->timestamp);
         $blogComments = Blog_comment::where('blog_id', $blog->id)->get();
+        $userComments = $this->user_comments($blog->id);
         return Inertia::render('SingleBlog', ['blog' => $blog, 'comments' => $blogComments]);
     }
     private function transformBlogs($blogs)
@@ -41,5 +42,11 @@ class blogController extends Controller
     {
         return Blog::select('id', 'title', 'slug', 'timestamp','description','thumbnail')->orderBy('id', 'desc')->paginate($perPage);
     }
-    
+    private function user_comments($blog_id)
+    {
+        $user_id = Auth::id();
+        return Blog_comment::where('user_id', $user_id)
+        ->where('product_id', $blog_id)
+        ->pluck('id'); 
+    }
 }
