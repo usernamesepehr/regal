@@ -14,12 +14,21 @@ class mainpageController extends Controller
 {
     public function index()
     {
-        $categories = $this->categories();
-        $products = $this->products();
-        $products = $this->mapProducts($products);
-        $blogs = $this->blogs();
-        $blogs = $this->transformBlogs($blogs);
-        return Inertia::render('Home', ['categories' => $categories, 'products' => $products, 'blogs' => $blogs]);
+        // $categories = $this->categories();
+        // $products = $this->products();
+        // $products = $this->mapProducts($products);
+        // $blogs = $this->blogs();
+        // $blogs = $this->transformBlogs($blogs);
+        // // return Inertia::render('Home', ['categories' => $categories, 'products' => $products, 'blogs' => $blogs]);
+        // return Inertia::render('Home', [
+        //    'categories' => Inertia::defer(fn() => $categories) 
+        // ]);
+        return Inertia::render('Home', [
+            'categories' => Inertia::defer(fn () => $this->categories()),
+            'products'   => Inertia::defer(fn () => $this->mapProducts($this->products())),
+            'blogs'      => Inertia::defer(fn () => $this->transformBlogs($this->blogs())),
+        ]);
+        
     }
     private function categories()
     {
