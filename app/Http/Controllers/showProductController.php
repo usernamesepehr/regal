@@ -36,6 +36,7 @@ class showProductController extends Controller
         $liked = $this->is_liked($product->id);
         $userComments = $this->user_comments($product->id);
         return Inertia::render('ProductsPage', ['product' => $product, 'comments' => $comments, 'rate' => $rate, 'liked' => $liked, 'categories' => $categories, 'options' => $options, 'metas' => $metas, 'userComments' => $userComments]);
+        // return response()->json(['product' => $product, 'comments' => $comments, 'rate' => $rate, 'liked' => $liked, 'categories' => $categories, 'options' => $options, 'metas' => $metas, 'userComments' => $userComments]);
     }  
     public function detail(Request $request)
     {

@@ -28,7 +28,8 @@ class blogController extends Controller
         $blog->timestamp = jdate('F j', (int) $blog->timestamp);
         $blogComments = Blog_comment::where('blog_id', $blog->id)->get();
         $userComments = $this->user_comments($blog->id);
-        return Inertia::render('SingleBlog', ['blog' => $blog, 'comments' => $blogComments]);
+        return Inertia::render('SingleBlog', ['blog' => $blog, 'comments' => $blogComments, 'userComments' => $userComments]);
+        // return response()->json(['blog' => $blog, 'comments' => $blogComments, 'userComments' => $userComments]);
     }
     private function transformBlogs($blogs)
     {
@@ -46,7 +47,7 @@ class blogController extends Controller
     {
         $user_id = Auth::id();
         return Blog_comment::where('user_id', $user_id)
-        ->where('product_id', $blog_id)
+        ->where('blog_id', $blog_id)
         ->pluck('id'); 
     }
 }
