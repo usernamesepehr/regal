@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Option;
 use App\Models\Product;
 use App\Models\Product_category;
@@ -26,14 +27,15 @@ class showProductController extends Controller
     public function get($slug)
     {
      return Inertia::render('ProductsPage', [
-        'product'      => Inertia::defer(fn () => $this->product($slug)),
-        'comments'     => Inertia::defer(fn () => $this->comments($this->product($slug)->id)),
-        'rate'         => Inertia::defer(fn () => $this->rate($this->product($slug)->id)),
-        'liked'        => Inertia::defer(fn () => $this->is_liked($this->product($slug)->id)),
-        'categories'   => Inertia::defer(fn () => $this->categories($this->product($slug)->id)),
-        'options'      => Inertia::defer(fn () => $this->options($this->product($slug)->id)),
-        'metas'        => Inertia::defer(fn () => $this->metas($this->product($slug)->id)),
-        'userComments' => Inertia::defer(fn () => $this->user_comments($this->product($slug)->id)),
+        'product'      => Inertia::defer(group: 'product', fn () => $this->product($slug)),
+        'comments'     => Inertia::defer(group: 'info', fn () => $this->comments($this->product($slug)->id)),
+        'rate'         => Inertia::defer(group: 'info', fn () => $this->rate($this->product($slug)->id)),
+        'liked'        => Inertia::defer(group: 'userInfo', fn () => $this->is_liked($this->product($slug)->id)),
+        'likeCount'    => Inertia::defer(group: 'info', fn () => $this->likeCount($this->product($slug)->id)),
+        'categories'   => Inertia::defer(group: 'info', fn () => $this->categories($this->product($slug)->id)),
+        'options'      => Inertia::defer(group: 'info', fn () => $this->options($this->product($slug)->id)),
+        'metas'        => Inertia::defer(group: 'info', fn () => $this->metas($this->product($slug)->id)),
+        'userComments' => Inertia::defer(group: 'userInfo', fn () => $this->user_comments($this->product($slug)->id)),
     ]);
     }  
     public function detail(Request $request)
@@ -68,6 +70,10 @@ class showProductController extends Controller
     private function comments($product_id)
     {
        return Comment::where('product_id', $product_id)->get();
+    }
+    private function likeCount($product_id)
+    {
+       return Like::where('product_id', $product_id)->count();
     }
     private function rate($product_id)
     {

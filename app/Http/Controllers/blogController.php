@@ -18,18 +18,18 @@ class blogController extends Controller
        $perPage = $request->input('per_pages', 9);
 
       return Inertia::render('Blogs', [
-        'blogs'       => Inertia::defer(fn () => $this->transformBlogs($this->blogs($perPage))),
-        'latestBlogs' => Inertia::defer(fn () => $this->transformBlogs($this->blogs($perPage))->take(4)),
+        'blogs'       => Inertia::defer(group: 'blogs', fn () => $this->transformBlogs($this->blogs($perPage))),
+        'latestBlogs' => Inertia::defer(group: 'blogs', fn () => $this->transformBlogs($this->blogs($perPage))->take(4)),
       ]);
     }
     public function get($slug)
     {
      return Inertia::render('SingleBlog', [
-        'blog' => Inertia::defer(fn () => tap(Blog::where('slug', $slug)->firstOrFail(), function($blog) {
+        'blog' => Inertia::defer(group: 'blog', fn () => tap(Blog::where('slug', $slug)->firstOrFail(), function($blog) {
             $blog->timestamp = jdate('F j', (int) $blog->timestamp);
         })),
-        'comments' => Inertia::defer(fn () => $this->blogComments($slug)),
-        'userComments' => Inertia::defer(fn () => $this->user_comments(Blog::where('slug', $slug)->firstOrFail()->id)),
+        'comments' => Inertia::defer(group: 'comment', fn () => $this->blogComments($slug)),
+        'userComments' => Inertia::defer(group: 'comment', fn () => $this->user_comments(Blog::where('slug', $slug)->firstOrFail()->id)),
     ]);
     }
     private function transformBlogs($blogs)
